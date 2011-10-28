@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Change Near Me</title>
+
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	
+	<!-- 
+  Stuff to fix:
+  Add user's current location as a marker
+  Nicer basemap (needs less stuff going on)
+  Deal with city-wide projects in Change By Us  (maybe don't show them)
+  Deal with scraper failure on the ioby projects
+  Add pagination, only pulling the first page of changebyus
+  
+  Scraping from: https://scraperwiki.com/scrapers/ioby_projects/
+  -->
+  
+	
+	<script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAAY73fCAFOMpAtND0kAhnryxSZgEBKIoKQqSsZCqONJBpbSVPXNBTi7TuWJ7J2LQujQJuqjYX51GyRug"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+	<!-- Leaflet CSS --> 
+  <link rel="stylesheet" href="leaflet/dist/leaflet.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="leaflet/dist/leaflet.ie.css" /><![endif]-->
+
+  <!-- Leaflet JavaScript -->
+  <script src="leaflet/dist/leaflet.js"></script>
+  
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		html, body, #map {
+			height: 100%;
+		}
+	</style>
+	
+	
+</head>
+<body>
+
+
+	<div id="map"></div>
+
+	<script>
+		var map = new L.Map('map');
+		var lat, long, currentLoc;
+
+		var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/22677/256/{z}/{x}/{y}.png',
+			cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+			cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
+
+  	var geojsonLayer = new L.GeoJSON();
+		map.addLayer(cloudmade);
+
+  	navigator.geolocation.getCurrentPosition(foundLocation, noLocation); 
+  	
+  	// thanks, https://views.scraperwiki.com/run/ajax_cheat_sheet/ !
+  	var apiurl = "http://api.scraperwiki.com/api/1.0/datastore/sqlite"; 
+    $.ajaxSetup({type:"GET", dataType: "jsonp", url:apiurl, error:function(jq, status) { alert(status); }}); 
+    var sqlselect = "select * from swdata limit 500";
+    var name = "ioby_projects";
+    $.ajax({data:{name:name, query:sqlselect}, success:function(data) {
+      
+      var group = new L.LayerGroup();
+      var marker;
+      
+      for (var i=0; i < data.length; i++) { 
+        console.log(data[i]["longitude"]);
+        marker = new L.Marker(new L.LatLng(data[i]["latitude"], data[i]["longitude"], true));
+        
+        //popup content
+        popup = "<b>" + data[i]["project"] + "</b>. Read more on <a href='" + data[i]["url"] + "'>" + data[i]["source"] + "</a>.";
+        
+        marker.bindPopup(popup);
+        group.addLayer(marker);
+        console.log(marker.getLatLng());
+      }
+      
+      map.addLayer(group);
+     
+    }});
+    
+    
+    function foundLocation(position) 
+    { 
+    lat = position.coords.latitude; 
+    long = position.coords.longitude; 
+    currentLoc = new L.LatLng(lat, long); // geographical point (longitude and latitude)
+    map.setView(currentLoc, 15);
+    }
+    
+    function noLocation(error) 
+    { 
+      	
+      	currentLoc = new L.LatLng(40.6656, -73.9527); // geographical point (longitude and latitude)
+        map.setView(currentLoc, 12);
+        alert('Could not find your location, sorry. Showing you projects in beautiful Brooklyn.'); 
+        
+      }
+    
+    
+	</script>
+
+
+
+</body>
+</html>
