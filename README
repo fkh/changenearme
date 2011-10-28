@@ -1,0 +1,9 @@
+Stuff to fix:
+  Add user's current location as a marker
+	Nicer basemap (needs less stuff going on)
+	Deal with city-wide projects in Change By Us  (maybe don't show them)
+	Deal with scraper failure on the ioby projects
+	Add pagination, only pulling the first page of changebyus
+					  
+Scraping from: https://scraperwiki.com/scrapers/ioby_projects/
+
