@@ -12,6 +12,8 @@
 	
 	<script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAAY73fCAFOMpAtND0kAhnryxSZgEBKIoKQqSsZCqONJBpbSVPXNBTi7TuWJ7J2LQujQJuqjYX51GyRug"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	
+
 
 	<!-- Leaflet CSS --> 
   <link rel="stylesheet" href="leaflet/leaflet.css" />
@@ -61,7 +63,6 @@
       var marker;
       
       for (var i=0; i < data.length; i++) { 
-        console.log(data[i]["longitude"]);
         marker = new L.Marker(new L.LatLng(data[i]["latitude"], data[i]["longitude"], true));
         
         //popup content
@@ -69,7 +70,6 @@
         
         marker.bindPopup(popup, {maxWidth: 180});
         group.addLayer(marker);
-        console.log(marker.getLatLng());
       }
       
       map.addLayer(group);
