@@ -65,7 +65,7 @@
         marker = new L.Marker(new L.LatLng(data[i]["latitude"], data[i]["longitude"], true));
         
         //popup content
-        popup = "<b>" + data[i]["project"] + "</b>. Read more on <a href='" + data[i]["url"] + "'>" + data[i]["source"] + "</a>.";
+        popup = "<b>" + data[i]["project"] + "</b>. Find out more on <a href='" + data[i]["url"] + "'>" + data[i]["source"] + "</a>.";
         
         marker.bindPopup(popup, {maxWidth: 180});
         group.addLayer(marker);
