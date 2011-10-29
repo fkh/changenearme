@@ -67,7 +67,7 @@
         //popup content
         popup = "<b>" + data[i]["project"] + "</b>. Read more on <a href='" + data[i]["url"] + "'>" + data[i]["source"] + "</a>.";
         
-        marker.bindPopup(popup);
+        marker.bindPopup(popup, {maxWidth: 180});
         group.addLayer(marker);
         console.log(marker.getLatLng());
       }
