@@ -2,16 +2,6 @@ Change Near Me (a.k.a. Change In My Backyard) is a mobile-friendly map, to show 
 
 Data comes via Scraperwiki. The map uses Leaflet. Location via your browser's built-in geolocation.
 
-A few things to fix:
--Put the data into CartoDB, for much easier mapping and spatial queries
--Add user's current location as a marker
--Nicer basemap (needs less stuff going on)
--Deal with city-wide projects in Change By Us  (maybe don't show them?)
--Deal with scraper failure on the ioby projects
--Add pagination, only pulling the first page of changebyus (whoops!)
--Points from Change By Us are all in the same location by neighborhood, need to add some jitter or cluster them.
--Google analytics
-
 Scraping from: https://scraperwiki.com/scrapers/ioby_projects/
 
 Built by @fkh as a Civic Works Friday project at OpenPlans.
