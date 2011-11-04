@@ -104,35 +104,19 @@
 			cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
 			cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
 
-  	var geojsonLayer = new L.GeoJSON();
+  	var projectLayer = new L.GeoJSON();
+  	
+  	projectLayer.on('featureparse', function(e) {
+  	  var label = "<b>" + e.properties.project + "</b>. Find out more on <a href='" + e.properties.url + "'>" + e.properties.source + "</a>.";
+      
+  	  	e.layer.bindPopup(label, {maxWidth: 180});
+      });
+  	   
+    map.addLayer(projectLayer);
+   
 		map.addLayer(cloudmade);
 
   	navigator.geolocation.getCurrentPosition(foundLocation, noLocation); 
-  	
-  	// thanks, https://views.scraperwiki.com/run/ajax_cheat_sheet/ !
-  	var apiurl = "http://api.scraperwiki.com/api/1.0/datastore/sqlite"; 
-    $.ajaxSetup({type:"GET", dataType: "jsonp", url:apiurl, error:function(jq, status) { alert(status); }}); 
-    var sqlselect = "select * from swdata limit 500";
-    var name = "ioby_projects";
-    $.ajax({data:{name:name, query:sqlselect}, success:function(data) {
-      
-      var group = new L.LayerGroup();
-      var marker;
-      
-      for (var i=0; i < data.length; i++) { 
-        marker = new L.Marker(new L.LatLng(data[i]["latitude"], data[i]["longitude"], true));
-        
-        //popup content
-        popup = "<b>" + data[i]["project"] + "</b>. Find out more on <a href='" + data[i]["url"] + "'>" + data[i]["source"] + "</a>.";
-        
-        marker.bindPopup(popup, {maxWidth: 180});
-        group.addLayer(marker);
-      }
-      
-      map.addLayer(group);
-     
-    }});
-    
     
     function foundLocation(position) 
     { 
@@ -150,6 +134,13 @@
         alert('Could not find your location, sorry. Showing you projects in beautiful Brooklyn.'); 
         
       }
+      
+      $.getJSON(          "http://fkh.cartodb.com/api/v1/sql?q=SELECT%20*%20FROM%20ioby_projects&format=geojson&callback=?",
+          function(geojson) {
+       $.each(geojson.features, function(i, feature) {
+            projectLayer.addGeoJSON(feature);
+          })
+      });
     
 	</script>
 
