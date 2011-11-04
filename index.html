@@ -10,10 +10,23 @@
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	
 	
-	<script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAAY73fCAFOMpAtND0kAhnryxSZgEBKIoKQqSsZCqONJBpbSVPXNBTi7TuWJ7J2LQujQJuqjYX51GyRug"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAAY73fCAFOMpAtND0kAhnryxSZgEBKIoKQqSsZCqONJBpbSVPXNBTi7TuWJ7J2LQujQJuqjYX51GyRug"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-	
 
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#topbar').click(function() {
+      $('#infobox').show();
+      $('#map').hide();
+    });
+    
+    $('#hidelink').click(function() {
+      $('#infobox').hide();
+      $('#map').show();
+    });
+    
+});
+</script>
 
 	<!-- Leaflet CSS --> 
   <link rel="stylesheet" href="leaflet/leaflet.css" />
@@ -26,9 +39,31 @@
 		body {
 			padding: 0;
 			margin: 0;
+			font-family: Arial, sans-serif;
 		}
 		html, body, #map {
 			height: 100%;
+		}
+		
+		div#infobox {
+		  position: absolute;
+		  width: 100%;
+		  left: 0;
+		  top: 0;
+		  display: none;
+		  background: white;
+		  padding: 20px;
+		}
+		
+		div#topbar {
+       position: absolute;
+       top: 10px;
+       right: 20px;
+       width: 20px;
+       height: 20px;
+       background: #EEF;
+       z-index: 20;
+       text-align: center;
 		}
 	</style>
 	
@@ -36,8 +71,17 @@
 </head>
 <body>
 
-
+	<div id="topbar"><strong>?</strong></div>
 	<div id="map"></div>
+	
+	<div id="infobox">
+	<h3>Change Near Me</h3>
+	<p>Discover community projects around you! Use <strong>changenear.me</strong> on your mobile browser to find projects from ioby and Change By Us. Your phone should find you and zoom the map to your current location. Click a map pin to find out more about any project.</p>
+	<p><strong>changenear.me</strong> uses<a href="https://scraperwiki.com/scrapers/ioby_projects/">Scraperwiki</a> to collect info on projects from <a href="http://ioby.org/">ioby</a> and <a href="http://nyc.changeby.us">Change By Us</a>. Find it <a href="https://github.com/fkh/changenearme/">on github</a>. <a href="https://github.com/openplans/civic-pheromones/">Wouldn't it be cool</a> if you could get all your planning info like this? <a href="http://twitter.com/fkh">fkh</a> cobbled this together as a Friday project at <a href="http://openplans.org">OpenPlans</a>.</p>
+	<p><a href="http://twitter.com/fkh">Comments and feedback</a> please!</p>
+	<p id="hidelink"><a href="#">Take me back to the map!</a></p>
+	</div>
+  
 
 	<script>
 		var map = new L.Map('map');
@@ -95,7 +139,6 @@
       }
     
 	</script>
-
 
 </body>
 </html>
