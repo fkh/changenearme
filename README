@@ -1,6 +1,6 @@
 Change Near Me (a.k.a. Change In My Backyard) is a mobile-friendly map, to show you projects from ioby.org and Change By Us in NYC. Rather than hunting around a bunch of different sites to find active community projects, pull out your phone and see what's around you. Check it out at http://changenear.me
 
-Data comes via Scraperwiki. The map uses Leaflet. Location via your browser's built-in geolocation.
+Data comes via Scraperwiki and CartoDB. The map uses Leaflet. Location via your browser's built-in geolocation.
 
 Scraping from: https://scraperwiki.com/scrapers/ioby_projects/
 
